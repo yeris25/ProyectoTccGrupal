@@ -30,7 +30,6 @@ public class Mercancia {
     @Column(name="VolumenOcupado",nullable = false, length =50 )
     private String VolumenOcupado;
 
-
     @OneToOne(mappedBy = "Mercancia", cascade = CascadeType.ALL)
     @JoinColumn
     private Bodega bodega;

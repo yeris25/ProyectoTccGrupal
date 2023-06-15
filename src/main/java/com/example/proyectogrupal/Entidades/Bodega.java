@@ -36,6 +36,9 @@ public class Bodega {
         this.bodega = bodega;
     }
 
+    @Transient
+    private String mensjeError;
+
     public Integer getId() {
         return id;
     }
