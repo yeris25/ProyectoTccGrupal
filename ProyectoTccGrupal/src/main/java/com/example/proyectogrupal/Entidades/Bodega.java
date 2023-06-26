@@ -3,6 +3,8 @@ package com.example.proyectogrupal.Entidades;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table (name = "Bodega")
 public class Bodega {
@@ -21,19 +23,21 @@ public class Bodega {
     @Column(name="Ubicacion",nullable = false, length =50 )
     private String Ubicacion;
 
-    @OneToOne(mappedBy = "Bodega", cascade = CascadeType.ALL)
-    @JoinColumn
-    private Bodega bodega;
+    @OneToMany(mappedBy = "bodega")
+    private List<Mercancia> mercancia;
+    @Transient
+    private String mensjeError;
 
     public Bodega() {
     }
 
-    public Bodega(Integer id, String controEntrada, String controlSalida, String ubicacion, Bodega bodega) {
+    public Bodega(Integer id, String controEntrada, String controlSalida, String ubicacion, List<Mercancia> mercancia, String mensjeError) {
         this.id = id;
         ControEntrada = controEntrada;
         ControlSalida = controlSalida;
         Ubicacion = ubicacion;
-        this.bodega = bodega;
+        this.mercancia = mercancia;
+        this.mensjeError = mensjeError;
     }
 
     public Integer getId() {
@@ -68,11 +72,19 @@ public class Bodega {
         Ubicacion = ubicacion;
     }
 
-    public Bodega getBodega() {
-        return bodega;
+    public List<Mercancia> getMercancia() {
+        return mercancia;
     }
 
-    public void setBodega(Bodega bodega) {
-        this.bodega = bodega;
+    public void setMercancia(List<Mercancia> mercancia) {
+        this.mercancia = mercancia;
+    }
+
+    public String getMensjeError() {
+        return mensjeError;
+    }
+
+    public void setMensjeError(String mensjeError) {
+        this.mensjeError = mensjeError;
     }
 }
