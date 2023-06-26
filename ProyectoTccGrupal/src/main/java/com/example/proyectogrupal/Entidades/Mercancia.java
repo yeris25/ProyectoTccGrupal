@@ -13,7 +13,8 @@ public class Mercancia {
     @Column(name="id")
     private Integer id;
 
-
+    @Column(name="IUP",nullable = false, length =50 )
+    private String iup;
 
     @Column(name="nombre",nullable = false, length =50 )
     private String nombre;
@@ -30,16 +31,17 @@ public class Mercancia {
     @Column(name="VolumenOcupado",nullable = false, length =50 )
     private String VolumenOcupado;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "bodega",nullable = false)
+    @OneToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name="bodega",nullable = false)
     @JsonBackReference
     private Bodega bodega;
 
     public Mercancia() {
     }
 
-    public Mercancia(Integer id, String nombre, String descripcion, String fechaEntrada, String motivoDevolucion, String volumenOcupado, Bodega bodega) {
+    public Mercancia(Integer id, String iup, String nombre, String descripcion, String fechaEntrada, String motivoDevolucion, String volumenOcupado, Bodega bodega) {
         this.id = id;
+        this.iup = iup;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaEntrada = fechaEntrada;
@@ -54,6 +56,14 @@ public class Mercancia {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getIup() {
+        return iup;
+    }
+
+    public void setIup(String iup) {
+        this.iup = iup;
     }
 
     public String getNombre() {

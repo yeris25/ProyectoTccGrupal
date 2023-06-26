@@ -1,6 +1,7 @@
 package com.example.proyectogrupal.Controladores;
 
 
+import com.example.proyectogrupal.Entidades.Bodega;
 import com.example.proyectogrupal.Entidades.Mercancia;
 import com.example.proyectogrupal.Servicios.ServicioMercancia;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,16 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
-@Tag(name="Servicio Mercancia", description = "Servicios que ofrece el CRUD en la entidad estudiante")
+@RequestMapping("api/v1/mercancia")
+@Tag(name="Servicio Mercancia", description = "Servicios CRUD en la entidad Mercancia")
 public class MercanciaControlador {
     @Autowired
     protected ServicioMercancia servicioMercancia;
 
 
     @PostMapping
-    @Operation(summary = "Registra un cliente en la BD")
-    @ApiResponses(Value = {
+    @Operation(summary = "Registra una mercancia en la Base de datos")
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Cliente fue creado con exito"),
             @ApiResponse(responseCode = "400", description = "Fallamos en el registro, revise su peticion")
     })
@@ -48,6 +49,7 @@ public class MercanciaControlador {
 
 
     @GetMapping
+    @Operation(summary = "Buscar todas las mercancias")
     public ResponseEntity<List<Mercancia>> buscarTodos() {
         try {
             List<Mercancia> mercancias = servicioMercancia.buscarTodos();
@@ -61,5 +63,46 @@ public class MercanciaControlador {
         }
     }
 
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Eliminar una mercancia de la Base de datos")
+    public  ResponseEntity<Mercancia> eliminar(@PathVariable Integer id){
+        try{
+             servicioMercancia.eliminar(id);
+            return ResponseEntity
+                    .status(HttpStatus.OK).build();
+        }  catch (Exception error) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar mercancia por ID ")
+    public ResponseEntity<Mercancia>buscarPorId(@PathVariable Integer id){
+        try{
+            Mercancia mercanciaEncontrada= (Mercancia) servicioMercancia.buscarPorId(id);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(mercanciaEncontrada);
+        }catch(Exception error){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+
+        }
+
+    }
+    @PutMapping
+    @Operation(summary = "Actualizar Mercancia")
+    public ResponseEntity<Mercancia> actualizar(@PathVariable Integer id,@RequestBody Mercancia datosNuevos ){
+        try {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicioMercancia.actualizar(id, datosNuevos));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 
 }

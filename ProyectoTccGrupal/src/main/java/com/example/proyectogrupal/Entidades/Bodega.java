@@ -23,22 +23,24 @@ public class Bodega {
     @Column(name="Ubicacion",nullable = false, length =50 )
     private String Ubicacion;
 
-    @OneToMany(mappedBy = "bodega")
+    @OneToMany(mappedBy = "Bodega")
     private List<Mercancia> mercancia;
-    @Transient
-    private String mensjeError;
+
+
 
     public Bodega() {
     }
 
-    public Bodega(Integer id, String controEntrada, String controlSalida, String ubicacion, List<Mercancia> mercancia, String mensjeError) {
+    public Bodega(Integer id, String controEntrada, String controlSalida, String ubicacion, List<Mercancia> mercancia) {
         this.id = id;
         ControEntrada = controEntrada;
         ControlSalida = controlSalida;
         Ubicacion = ubicacion;
         this.mercancia = mercancia;
-        this.mensjeError = mensjeError;
     }
+
+    @Transient
+    private String mensjeError;
 
     public Integer getId() {
         return id;

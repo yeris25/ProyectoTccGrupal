@@ -12,19 +12,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ServicioBodega implements ServicioBase<Bodega>{
+public class ServicioBodega implements ServicioBase<Bodega> {
 
     @Autowired
-    protected BodegaRepositorio BodegaRepositorio;
+    protected BodegaRepositorio bodegaRepositorio;
 
 
 
     @Override
-    @Transactional(readOnly=true)
-    public List<Bodega> buscarTodos() throws Exception {
+    @Transactional
+    public  List<Bodega> buscarTodos() throws Exception {
         try{
-
-            List<Bodega>bodegas =BodegaRepositorio.findAll();
+            List<Bodega>bodegas =bodegaRepositorio.findAll();
             return bodegas;
         }catch(Exception error){
             throw new Exception(error.getMessage());
@@ -34,9 +33,9 @@ public class ServicioBodega implements ServicioBase<Bodega>{
 
 
     @Override
-    public Bodega buscarPorId(Integer id) throws Exception {
+    public  Bodega buscarPorId(Integer id) throws Exception {
         try{
-            Optional<Bodega>bodegaOpcional =BodegaRepositorio.findById(id);
+            Optional<Bodega>bodegaOpcional =bodegaRepositorio.findById(id);
             if(bodegaOpcional.isPresent()){
                 return bodegaOpcional.get();
             }else{
@@ -50,7 +49,7 @@ public class ServicioBodega implements ServicioBase<Bodega>{
     @Override
     public Bodega registrar(Bodega datosARegistrar) throws Exception {
         try{
-            Bodega bodegaGuardada=BodegaRepositorio.save(datosARegistrar);
+            Bodega bodegaGuardada=bodegaRepositorio.save(datosARegistrar);
             return bodegaGuardada;
         }catch(Exception error){
             throw new Exception(error.getMessage());
@@ -65,34 +64,18 @@ public class ServicioBodega implements ServicioBase<Bodega>{
 
     @Override
     public boolean eliminar(Integer id) throws Exception {
-        try{
+        try {
 
-            Optional<Bodega>bodegaOptional =BodegaRepositorio.findById(id);
-            if(bodegaOptional.isPresent()){
-                BodegaRepositorio.deleteById(id);
+            Optional<Bodega> bodegaOptional = bodegaRepositorio.findById(id);
+            if (bodegaOptional.isPresent()) {
+                bodegaRepositorio.deleteById(id);
                 return true;
-            }else{
+            } else {
                 throw new Exception("Bodega no encontrada");
             }
 
-        }catch(Exception error){
+        } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

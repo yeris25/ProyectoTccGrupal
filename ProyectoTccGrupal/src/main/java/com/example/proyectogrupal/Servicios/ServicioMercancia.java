@@ -28,7 +28,7 @@ public  class ServicioMercancia implements  ServicioBase <Mercancia> {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Mercancia buscarPorId(Integer id) throws Exception {
         try{
             Optional<Mercancia> mercanciaOptional=MercanciaRepositorio.findById(id);
